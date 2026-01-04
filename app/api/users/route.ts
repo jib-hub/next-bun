@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
-import { db } from "@/app/lib/db";
+import { getDb } from "@/app/lib/db";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const q = searchParams.get("q"); // optional filter
+  const db = getDb();
 
-  // Tagged template => safe parameterization (no SQL injection)
+  const { searchParams } = new URL(request.url);
+  const q = searchParams.get("q");
+
   const users = q
     ? await db`
         SELECT id, email, name, created_at
