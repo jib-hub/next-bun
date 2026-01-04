@@ -1,8 +1,6 @@
-import { SQL } from "bun";
-
 if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is not set");
+    throw new Error("DATABASE_URL is not set");
 }
 
-// Create a client (Bun manages pooling internally)
-export const db = new SQL(process.env.DATABASE_URL);
+// Bun's native SQL client via global Bun (no import)
+export const db = Bun.sql(process.env.DATABASE_URL);
