@@ -1,6 +1,9 @@
+import "server-only";
+
 if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL is not set");
+  throw new Error("DATABASE_URL is not set");
 }
 
-// Bun's native SQL client via global Bun (no import)
-export const db = Bun.sql(process.env.DATABASE_URL);
+// Bun provides SQL class on the global Bun object
+const SQLClass = (Bun as any).SQL;
+export const db = new SQLClass(process.env.DATABASE_URL);
